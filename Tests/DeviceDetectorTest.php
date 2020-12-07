@@ -43,7 +43,7 @@ class DeviceDetectorTest extends TestCase
             foreach ($ymlData as $brand => $regex) {
                 $this->assertArrayHasKey('regex', $regex);
 
-                $this->assertTrue(false === \strpos($regex['regex'], '||'), \sprintf(
+                $this->assertFalse(\strpos($regex['regex'], '||'), \sprintf(
                     'Detect `||` in regex, file %s, brand %s, common regex %s',
                     $file,
                     $brand,
@@ -75,7 +75,7 @@ class DeviceDetectorTest extends TestCase
                             $brand,
                             $model['regex']
                         ));
-                        $this->assertTrue(false === \strpos($model['regex'], '||'), \sprintf(
+                        $this->assertFalse(\strpos($model['regex'], '||'), \sprintf(
                             'Detect `||` in regex, file %s, brand %s, model regex %s',
                             $file,
                             $brand,
@@ -235,8 +235,8 @@ class DeviceDetectorTest extends TestCase
         AbstractParser::setVersionTruncation($truncationType);
         $dd = new DeviceDetector($useragent);
         $dd->parse();
-        $this->assertEquals($osVersion, $dd->getOs('version'));
-        $this->assertEquals($clientVersion, $dd->getClient('version'));
+        $this->assertSame($osVersion, $dd->getOs('version'));
+        $this->assertSame($clientVersion, $dd->getClient('version'));
         AbstractParser::setVersionTruncation(AbstractParser::VERSION_TRUNCATION_NONE);
     }
 
@@ -400,14 +400,14 @@ class DeviceDetectorTest extends TestCase
     {
         $dd = new DeviceDetector('Mozilla/5.0 (Linux; Android 4.4.2; Nexus 4 Build/KOT49H) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.136 Mobile Safari/537.36');
         $dd->parse();
-        $this->assertEquals('Google', $dd->getBrandName());
+        $this->assertSame('Google', $dd->getBrandName());
     }
 
     public function testGetBrand(): void
     {
         $dd = new DeviceDetector('Mozilla/5.0 (Linux; Android 4.4.2; Nexus 4 Build/KOT49H) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.136 Mobile Safari/537.36');
         $dd->parse();
-        $this->assertEquals('GO', $dd->getBrand());
+        $this->assertSame('GO', $dd->getBrand());
     }
 
     public function testIsTouchEnabled(): void

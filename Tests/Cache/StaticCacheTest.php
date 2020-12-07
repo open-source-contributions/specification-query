@@ -33,11 +33,11 @@ class StaticCacheTest extends TestCase
 
         // add entry
         $cache->save('key', 'value');
-        $this->assertEquals('value', $cache->fetch('key'));
+        $this->assertSame('value', $cache->fetch('key'));
 
         // change entry
         $cache->save('key', 'value2');
-        $this->assertEquals('value2', $cache->fetch('key'));
+        $this->assertSame('value2', $cache->fetch('key'));
 
         // remove entry
         $cache->delete('key');
